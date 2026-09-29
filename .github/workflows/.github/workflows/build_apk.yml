@@ -31,8 +31,15 @@ jobs:
     - name: Install dependencies
       run: flutter pub get
 
-    - name: Build APK
-      run: flutter build apk --release
+    - name: Locate main.dart and Build APK
+      run: |
+        MAIN_PATH=$(find . -name "main.dart" -print -quit)
+        if [ -z "$MAIN_PATH" ]; then
+          echo "Error: Could not find main.dart anywhere in the project!"
+          exit 1
+        fi
+        echo "Found main.dart at: $MAIN_PATH"
+        flutter build apk --release -t "$MAIN_PATH"
 
     - name: Upload APK
       uses: actions/upload-artifact@v4
