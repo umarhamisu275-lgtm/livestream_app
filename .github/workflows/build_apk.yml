@@ -25,15 +25,13 @@ jobs:
         channel: 'stable'
 
     - name: Install dependencies
-      working-directory: livestream_app
       run: flutter pub get
 
     - name: Build APK
-      working-directory: livestream_app
       run: flutter build apk --release
 
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
         name: LiveStream-App-Release
-        path: livestream_app/build/app/outputs/flutter-apk/app-release.apk
+        path: build/app/outputs/flutter-apk/app-release.apk
