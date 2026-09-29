@@ -1,4 +1,4 @@
-name: Build LiveStream Android APK
+name: Build Android APK
 
 on:
   push:
@@ -10,29 +10,32 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    steps:
-    - uses: actions/checkout@v3
+    defaults:
+      run:
+        working-directory: livestream_app
 
-    - name: Set up Java Development Kit (JDK)
-      uses: actions/setup-java@v3
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Java
+      uses: actions/setup-java@v4
       with:
+        distribution: 'zulu'
         java-version: '17'
-        distribution: 'temurin'
 
     - name: Set up Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: '3.19.x'
         channel: 'stable'
 
-    - name: Install Dependencies
+    - name: Install dependencies
       run: flutter pub get
 
-    - name: Build Android APK
+    - name: Build APK
       run: flutter build apk --release
 
-    - name: Upload APK Artifact
-      uses: actions/upload-artifact@v3
+    - name: Upload APK
+      uses: actions/upload-artifact@v4
       with:
         name: LiveStream-App-Release
-        path: build/app/outputs/flutter-apk/app-release.apk
+        path: livestream_app/build/app/outputs/flutter-apk/app-release.apk
