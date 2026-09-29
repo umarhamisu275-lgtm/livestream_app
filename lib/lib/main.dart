@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'video_feed_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,14 +22,7 @@ class LiveStreamApp extends StatelessWidget {
       title: 'LiveStream',
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark(),
-      home: const Scaffold(
-        body: Center(
-          child: Text(
-            'Barka da zuwa LiveStream App!',
-            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-          ),
-        ),
-      ),
+      home: const VideoFeedScreen(),
     );
   }
 }
