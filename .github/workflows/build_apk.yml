@@ -26,9 +26,11 @@ jobs:
 
     - name: Build Android APK
       run: |
-        PUBSPEC_DIR=$(dirname $(find . -name "pubspec.yaml" -not -path "*/.*" | head -n 1))
-        echo "Found Flutter project at: $PUBSPEC_DIR"
-        cd "$PUBSPEC_DIR"
+        # Nemo inda jakar android/ take ainihi
+        ANDROID_DIR=$(dirname $(find . -maxdepth 3 -name "build.gradle" -not -path "*/.*" | head -n 1))
+        PROJECT_DIR=$(dirname "$ANDROID_DIR")
+        echo "Moving into project directory: $PROJECT_DIR"
+        cd "$PROJECT_DIR"
         
         flutter pub get
         
