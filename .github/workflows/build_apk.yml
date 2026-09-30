@@ -10,10 +10,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: livestream_app
-
     steps:
     - uses: actions/checkout@v4
 
@@ -45,4 +41,5 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: LiveStream-App-Release
-        path: livestream_app/build/app/outputs/flutter-apk/app-release.apk
+        path: build/app/outputs/flutter-apk/app-release.apk
+
