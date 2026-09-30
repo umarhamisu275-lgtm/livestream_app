@@ -10,11 +10,15 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: livestream_app
+
     steps:
     - uses: actions/checkout@v4
 
     - name: Set up Java
-      uses: actions/setup-java@v4
+      uses: uses/setup-java@v4
       with:
         distribution: 'zulu'
         java-version: '17'
@@ -24,23 +28,14 @@ jobs:
       with:
         channel: 'stable'
 
-    - name: Build Android APK
-      run: |
-        # Nemo inda jakar android/ take ainihi
-        ANDROID_DIR=$(dirname $(find . -maxdepth 3 -name "build.gradle" -not -path "*/.*" | head -n 1))
-        PROJECT_DIR=$(dirname "$ANDROID_DIR")
-        echo "Moving into project directory: $PROJECT_DIR"
-        cd "$PROJECT_DIR"
-        
-        flutter pub get
-        
-        MAIN_PATH=$(find . -name "main.dart" -not -path "*/.*" | head -n 1)
-        echo "Found main.dart at: $MAIN_PATH"
-        
-        flutter build apk --release -t "$MAIN_PATH"
+    - name: Install dependencies
+      run: flutter pub get
+
+    - name: Build APK
+      run: flutter build apk --release -t lib/lib/main.dart
 
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
         name: LiveStream-App-Release
-        path: "**/build/app/outputs/flutter-apk/app-release.apk"
+        path: livestream_app/build/app/outputs/flutter-apk/app-release.apk
