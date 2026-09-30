@@ -26,13 +26,16 @@ jobs:
 
     - name: Build Android APK
       run: |
-        # Nemi inda pubspec.yaml yake a ciki
         PUBSPEC_DIR=$(dirname $(find . -name "pubspec.yaml" -not -path "*/.*" | head -n 1))
         echo "Found Flutter project at: $PUBSPEC_DIR"
         cd "$PUBSPEC_DIR"
         
         flutter pub get
-        flutter build apk --release
+        
+        MAIN_PATH=$(find . -name "main.dart" -not -path "*/.*" | head -n 1)
+        echo "Found main.dart at: $MAIN_PATH"
+        
+        flutter build apk --release -t "$MAIN_PATH"
 
     - name: Upload APK
       uses: actions/upload-artifact@v4
